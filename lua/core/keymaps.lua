@@ -90,3 +90,31 @@ if vim.g.neovide then
   vim.keymap.set({ 'n', 'v' }, '<C-->', ':lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>')
   vim.keymap.set({ 'n', 'v' }, '<C-0>', ':lua vim.g.neovide_scale_factor = 1<CR>')
 end
+
+-- FZF
+vim.keymap.set('n', '<leader>sf', function()
+  require('fzf-lua').files {
+    hidden = true,
+    previewer = false,
+  }
+end, { desc = 'Find files' })
+
+vim.keymap.set('n', '<leader>fg', function()
+  require('fzf-lua').live_grep()
+end, { desc = 'Live grep' })
+
+vim.keymap.set('n', '<leader>fb', function()
+  require('fzf-lua').buffers()
+end, { desc = 'Find buffers' })
+
+vim.keymap.set('n', '<leader>fh', function()
+  require('fzf-lua').help_tags()
+end, { desc = 'Help tags' })
+
+vim.keymap.set('n', '<leader>fo', function()
+  require('fzf-lua').oldfiles()
+end, { desc = 'Recent files' })
+
+vim.keymap.set('n', '<leader>gs', function()
+  require('fzf-lua').git_status()
+end, { desc = 'Git status' })

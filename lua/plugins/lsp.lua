@@ -1,13 +1,7 @@
 return {
   'neovim/nvim-lspconfig',
   dependencies = {
-    { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
-    'williamboman/mason-lspconfig.nvim',
-    'WhoIsSethDaniel/mason-tool-installer.nvim',
-
-    { 'j-hui/fidget.nvim',       opts = {} },
-
-    'hrsh7th/cmp-nvim-lsp',
+    { 'j-hui/fidget.nvim', opts = {} },
   },
   config = function()
     -- vim.diagnostic.config {
@@ -24,20 +18,17 @@ return {
           vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
         end
 
-        map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-        map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-        map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-        map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-        map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-        map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+        -- map('gr', require('fzf-lua').lsp_references, '[G]oto [R]eferences')
+        -- map('gI', require('fzf-lua').lsp_implementations, '[G]oto [I]mplementation')
+        -- map('<leader>D', require('fzf-lua').lsp_type_definitions, 'Type [D]efinition')
+        -- map('<leader>ds', require('fzf-lua').lsp_document_symbols, '[D]ocument [S]ymbols')
+        -- map('<leader>ws', require('fzf-lua').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+        map('gd', require('fzf-lua').lsp_definitions, '[G]oto [D]efinition')
         map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
         map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
         map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
       end,
     })
-
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
     local servers = {
       -- clangd = {},
@@ -65,16 +56,13 @@ return {
       html = { filetypes = { 'html', 'twig', 'hbs' } },
       cssls = {},
       tailwindcss = {},
+      eslint = {},
       dockerls = {},
       sqlls = {},
       terraformls = {},
       jsonls = {},
       yamlls = {},
-
       lua_ls = {
-        -- cmd = {...},
-        -- filetypes = { ...},
-        -- capabilities = {},
         settings = {
           Lua = {
             completion = {
@@ -97,24 +85,21 @@ return {
       },
     }
 
-    require('mason').setup()
+    for server, config in pairs(servers) do
+      local opts = {
+        on_attach = require('fidget').on_attach,
+        capabilities = require('fidget').capabilities,
+      }
 
-    local ensure_installed = vim.tbl_keys(servers or {})
-    vim.list_extend(ensure_installed, {
-      'stylua', -- Used to format Lua code
-      'goimports',
-      'gofumpt',
-    })
-    require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+      if config.settings then
+        opts.settings = config.settings
+      end
 
-    require('mason-lspconfig').setup {
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lspconfig')[server_name].setup(server)
-        end,
-      },
-    }
+      if config.filetypes then
+        opts.filetypes = config.filetypes
+      end
+
+      require('lspconfig')[server].setup(opts)
+    end
   end,
 }

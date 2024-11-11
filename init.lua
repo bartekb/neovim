@@ -1,5 +1,4 @@
 require 'core.options' -- Load general options
-require 'core.keymaps' -- Load general keymaps
 
 -- Set up the Lazy plugin manager
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -17,13 +16,14 @@ require('lazy').setup {
   require 'plugins.neotree',
   require 'plugins.colortheme',
   require 'plugins.lualine',
-  require 'plugins.treesitter',
-  require 'plugins.telescope',
+  require 'plugins.fzf',
+  -- require 'plugins.telescope',
   require 'plugins.autocompletion',
   require 'plugins.lint',
   require 'plugins.gitsigns',
-  require 'plugins.alpha',
+  -- require 'plugins.alpha',
   require 'plugins.lsp',
+  -- require 'plugins.lsp_saga',
   require 'plugins.indent-blankline',
   require 'plugins.misc',
   require 'plugins.mini',
@@ -34,8 +34,10 @@ require('lazy').setup {
   require 'plugins.navigator',
   require 'plugins.surround',
   require 'plugins.textobj',
+  require 'plugins.which_key',
 }
 
+require 'core.keymaps' -- Load general keymaps
 require 'core.autocmd' -- Load general autocommands
 
 -- The line beneath this is called `modeline`. See `:help modeline`

@@ -1,6 +1,6 @@
 vim.wo.number = true -- Make line numbers default (default: false)
 vim.o.relativenumber = true -- Set relative numbered lines (default: false)
-vim.o.clipboard = 'unnamedplus' -- Sync clipboard between OS and Neovim. (default: '')
+vim.o.clipboard = 'unnamed,unnamedplus' -- Sync clipboard between OS and Neovim. (default: '')
 vim.o.wrap = false -- Display lines as one long line (default: true)
 vim.o.linebreak = true -- Companion to wrap, don't split words (default: false)
 vim.o.mouse = 'a' -- Enable mouse mode (default: '')
@@ -32,7 +32,7 @@ vim.o.fileencoding = 'utf-8' -- The encoding written to a file (default: 'utf-8'
 vim.o.cmdheight = 1 -- More space in the Neovim command line for displaying messages (default: 1)
 vim.o.breakindent = true -- Enable break indent (default: false)
 vim.o.updatetime = 250 -- Decrease update time (default: 4000)
-vim.o.timeoutlen = 300 -- Time to wait for a mapped sequence to complete (in milliseconds) (default: 1000)
+vim.o.timeoutlen = 500 -- Time to wait for a mapped sequence to complete (in milliseconds) (default: 1000)
 vim.o.backup = false -- Creates a backup file (default: false)
 vim.o.writebackup = false -- If a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited (default: true)
 vim.o.undofile = true -- Save undo history (default: false)
@@ -43,5 +43,6 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣', extends = '…', 
 vim.opt.iskeyword:append '-' -- Hyphenated words recognized by searches (default: does not include '-')
 vim.opt.formatoptions:remove { 'c', 'r', 'o' } -- Don't insert the current comment leader automatically for auto-wrapping comments using 'textwidth', hitting <Enter> in insert mode, or hitting 'o' or 'O' in normal mode. (default: 'croql')
 vim.opt.runtimepath:remove '/usr/share/vim/vimfiles' -- Separate Vim plugins from Neovim in case Vim still in use (default: includes this path if Vim is installed)
-
-vim.cmd 'colorscheme retrobox'
+vim.o.list = true -- Show some invisible characters (tabs...)
+vim.o.showbreak = '↪ ' -- Make it clear when a line is broken (default: '+++')
+vim.o.listchars = table.concat({ "extends:…", "nbsp:␣", "precedes:…", "tab:> " }, ",")

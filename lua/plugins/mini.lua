@@ -20,6 +20,10 @@ return {
 
     -- require('mini.ai').setup {}
 
+    require('mini.cursorword').setup {}
+
+    require('mini.starter').setup {}
+
     require('mini.diff').setup {
       view = {
         style = 'sign',
