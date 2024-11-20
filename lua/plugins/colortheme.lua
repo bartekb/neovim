@@ -1,11 +1,32 @@
+-- catppuccin theme
+
 return {
-  "wtfox/jellybeans.nvim",
-    priority = 1000,
-    config = function()
-        require("jellybeans").setup()
-        vim.cmd.colorscheme("jellybeans")
-    end,
+  'catppuccin/nvim',
+  name = 'catppuccin',
+  priority = 1000,
+  lazy = false,
+  config = function()
+    require('catppuccin').setup {
+      flavour = 'mocha', -- latte, frappe, macchiato, mocha
+      no_italic = true, -- Force no italic
+      no_bold = false, -- Force no bold
+      no_underline = false, -- Force no underline
+    }
+
+    vim.cmd 'colorscheme catppuccin-mocha'
+  end,
 }
+
+-- return {
+--   'craftzdog/solarized-osaka.nvim',
+--   lazy = false,
+--   priority = 1000,
+--   opts = {},
+--   config = function()
+--     require('solarized-osaka').setup {}
+--     vim.cmd 'colorscheme solarized-osaka'
+--   end,
+-- }
 
 -- return {
 --   'projekt0n/github-nvim-theme',
@@ -14,34 +35,19 @@ return {
 --   priority = 1000, -- make sure to load this before all the other start plugins
 --   config = function()
 --     require('github-theme').setup {}
-
+--
 --     vim.cmd 'colorscheme github_dark_default'
 --   end,
 -- }
-
+--
 -- return {
---   '0xstepit/flow.nvim',
---   lazy = false,
---   priority = 1000,
---   opts = {},
---   config = function()
---     require('flow').setup {
---       dark_theme = true,
---       transparent = false,
---       high_contrast = false,
---       fluo_color = 'pink',
---       mode = 'desaturate',
---       aggressive_spell = false,
---     }
---     vim.cmd 'colorscheme flow'
---   end,
--- }
-
--- return {
---   'rebelot/kanagawa.nvim',
+--   'sainnhe/gruvbox-material',
 --   lazy = false,
 --   priority = 1000,
 --   config = function()
---     vim.cmd 'colorscheme kanagawa'
+--     -- Optionally configure and load the colorscheme
+--     -- directly inside the plugin declaration.
+--     vim.g.gruvbox_material_enable_italic = true
+--     vim.cmd.colorscheme 'gruvbox-material'
 --   end,
 -- }

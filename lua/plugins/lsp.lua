@@ -54,14 +54,7 @@ return {
         },
       },
       html = { filetypes = { 'html', 'twig', 'hbs' } },
-      cssls = {},
-      tailwindcss = {},
       eslint = {},
-      dockerls = {},
-      sqlls = {},
-      terraformls = {},
-      jsonls = {},
-      yamlls = {},
       lua_ls = {
         settings = {
           Lua = {

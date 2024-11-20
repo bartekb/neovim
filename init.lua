@@ -13,28 +13,19 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Set up plugins
 require('lazy').setup {
-  require 'plugins.neotree',
   require 'plugins.colortheme',
   require 'plugins.lualine',
   require 'plugins.fzf',
-  -- require 'plugins.telescope',
-  require 'plugins.autocompletion',
   require 'plugins.lint',
-  require 'plugins.gitsigns',
-  -- require 'plugins.alpha',
   require 'plugins.lsp',
-  -- require 'plugins.lsp_saga',
-  require 'plugins.indent-blankline',
   require 'plugins.misc',
   require 'plugins.mini',
-  require 'plugins.project-explorer',
   require 'plugins.conform',
-  require 'plugins.yanky',
   require 'plugins.copilot',
-  require 'plugins.navigator',
-  require 'plugins.surround',
-  require 'plugins.textobj',
-  require 'plugins.which_key',
+  require 'plugins.diffview',
+  require 'plugins.supermaven',
+  require 'plugins.cmp',
+  require 'plugins.git',
 }
 
 require 'core.keymaps' -- Load general keymaps

@@ -41,7 +41,7 @@ return {
       options = {
         icons_enabled = true,
         -- theme = 'tokyonight-storm', -- Set theme based on environment variable
-        theme = 'jellybeans',
+        -- theme = 'gruvbox-material',
         -- Some useful glyphs:
         -- https://www.nerdfonts.com/cheat-sheet
         --        
