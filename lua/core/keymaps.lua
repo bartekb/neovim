@@ -4,21 +4,16 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- For conciseness
 local opts = { noremap = true, silent = true }
 
--- Yank and return to position after paste
--- vim.keymap.set({'n', 'x', 'o'}, 'gy', '"+ygv<Esc>', { desc = 'Copy to clipboard' })
--- vim.keymap.set({'n', 'x', 'o'}, 'gp', '"+p', { desc = 'Paste clipboard text' })
-
--- Save file
-vim.keymap.set('n', '<C-s>', '<cmd>w<CR>', { desc = 'Save file', silent = true })
-
--- Save file without auto-formatting
-vim.keymap.set('n', '<leader>sn', '<cmd>noautocmd w<CR>', { desc = 'Save file without formatting' })
-
--- Quit file
-vim.keymap.set('n', '<C-q>', '<cmd>q<CR>', { desc = 'Quit file', silent = true })
-
--- Delete single character without copying into register
-vim.keymap.set({ 'n', 'v' }, 'x', '"_x', { desc = 'Delete without copying' })
+-- copy/paste
+vim.keymap.set({'n', 'x', 'o'}, 'gy', '"+y', {desc = 'Copy to clipboard'})
+vim.keymap.set({'n', 'x', 'o'}, 'gp', '"+p', {desc = 'Paste clipboard content before cursor'})
+vim.keymap.set({'n', 'x', 'o'}, 'gP', '"+P', {desc = 'Paste clipboard content after cursor'})
+vim.keymap.set({'n', 'x', 'o'}, 'c', '"_c', {desc = 'Change word'})
+vim.keymap.set({'n', 'x', 'o'}, 'C', '"_C', {desc = 'Change from the cursor to the end of the line and enter Insert mode'})
+vim.keymap.set({'n', 'x', 'o'}, 'd', '"_d', {desc = 'Delete word'})
+vim.keymap.set({'n', 'x', 'o'}, 'dd', '"_dd', {desc = 'Delete line'})
+vim.keymap.set({'n', 'x', 'o'}, 'D', '"_D', {desc = 'Delete from the cursor to the end of the line and enter Insert mode'})
+vim.keymap.set({'n', 'x', 'o'}, '<leader>y', '^vg_y', { desc = 'Copy whole line without new line' })
 
 -- Vertical scroll and center
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Scroll down and center' })
@@ -31,8 +26,7 @@ vim.keymap.set('n', 'N', 'Nzzzv', { desc = 'Previous match and center' })
 -- Buffers
 vim.keymap.set('n', '<Tab>', ':bnext<CR>', { desc = 'Next buffer' })
 vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', { desc = 'Previous buffer' })
-vim.keymap.set('n', '<leader>x', ':bdelete<CR>', { desc = 'Close buffer' })
-vim.keymap.set('n', '<leader>b', '<cmd>enew<CR>', { desc = 'New buffer' })
+vim.keymap.set('n', '<leader>bc', '<cmd>lua pcall(MiniBufremove.delete)<cr>', {desc = 'Close buffer'})
 
 -- Window management
 vim.keymap.set('n', '<leader>v', '<C-w>v', { desc = 'Split window vertically' })
@@ -59,55 +53,21 @@ vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', { desc = 'Toggle line wr
 vim.keymap.set('v', '<', '<gv', { desc = 'Indent left and stay' })
 vim.keymap.set('v', '>', '>gv', { desc = 'Indent right and stay' })
 
--- Keep last yanked when pasting
-vim.keymap.set('v', 'p', '"_dP', { desc = 'Paste without overwriting yank' })
-
 -- Diagnostics
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
 vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open diagnostic float' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic list' })
 
--- mini files
-
-vim.keymap.set('n', '<leader>ff', ':lua MiniFiles.open()<CR>', { desc = 'Open files' })
-
 -- FZF
-vim.keymap.set('n', '<leader>sf', function()
-  require('fzf-lua').files { hidden = true, previewer = false, file_icons = false }
-end, { desc = 'Find files' })
-
-vim.keymap.set('n', '<leader>fg', function()
-  require('fzf-lua').live_grep()
-end, { desc = 'Live grep' })
-
-vim.keymap.set('n', '<leader>sw', function()
-  require('fzf-lua').grep_cword()
-end, { desc = 'Search word under cursor' })
-
-vim.keymap.set('n', '<leader>fb', function()
-  require('fzf-lua').buffers()
-end, { desc = 'Find buffers' })
-
-vim.keymap.set('n', '<leader>fh', function()
-  require('fzf-lua').help_tags()
-end, { desc = 'Search help tags' })
-
-vim.keymap.set('n', '<leader>fo', function()
-  require('fzf-lua').oldfiles()
-end, { desc = 'Recent files' })
-
-vim.keymap.set('n', '<leader>gs', function()
-  require('fzf-lua').git_status()
-end, { desc = 'Git status' })
-
-vim.keymap.set('n', '<leader>gc', function()
-  require('fzf-lua').git_commits()
-end, { desc = 'Git commits' })
-
-vim.keymap.set('n', '<leader>gb', function()
-  require('fzf-lua').git_branches()
-end, { desc = 'Git branches' })
+vim.keymap.set("n", "<c-P>", require('fzf-lua').files, { desc = "Fzf Files" })
+vim.keymap.set("n", "<leader>bb", require('fzf-lua').buffers, { desc = "Fzf Buffers" })
+vim.keymap.set("n", "<leader>ss", require('fzf-lua').live_grep, { desc = "Fzf Grep" })
+vim.keymap.set("n", "<leader>sw", require('fzf-lua').grep_cword, { desc = "Search word under cursor" })
+vim.keymap.set("v", "<leader>sv", require('fzf-lua').grep_visual, { desc = "Search selection" })
+vim.keymap.set("n", "<leader>gs", require('fzf-lua').git_status, { desc = "Github Status" })
+vim.keymap.set("n", "<leader>gb", require('fzf-lua').git_branches, { desc = "Github Branches" })
+vim.keymap.set("n", "<leader>gc", require('fzf-lua').git_commits, { desc = "Github Commits" })
 
 -- Diffview
 vim.keymap.set('n', '<leader>gd', function()

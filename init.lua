@@ -14,22 +14,23 @@ vim.opt.rtp:prepend(lazypath)
 -- Set up plugins
 require('lazy').setup {
   require 'plugins.colortheme',
-  require 'plugins.lualine',
+  require 'plugins.treesitter',
+  -- require 'plugins.lualine',
   require 'plugins.fzf',
-  require 'plugins.lint',
+  -- require 'plugins.lint',
   require 'plugins.lsp',
-  require 'plugins.misc',
+  -- require 'plugins.misc',
   require 'plugins.mini',
   require 'plugins.conform',
-  require 'plugins.copilot',
+  -- require 'plugins.copilot',
   require 'plugins.diffview',
-  require 'plugins.supermaven',
-  require 'plugins.cmp',
+  -- require 'plugins.supermaven',
+  require 'plugins.blink',
   require 'plugins.git',
 }
 
-require 'core.keymaps' -- Load general keymaps
-require 'core.autocmd' -- Load general autocommands
+require 'core.keymaps'
+require 'core.autocmd'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

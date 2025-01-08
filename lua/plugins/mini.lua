@@ -18,19 +18,32 @@ return {
       },
     }
 
-    -- require('mini.ai').setup {}
+    -- require('mini.cursorword').setup {}
 
-    require('mini.cursorword').setup {}
+    -- require('mini.starter').setup {}
 
-    require('mini.starter').setup {}
+    require('mini.icons').setup { style = 'glyph' }
 
+    -- See :help MiniAi-textobject-builtin
+    require('mini.ai').setup { n_lines = 500 }
+
+    -- See :help MiniComment.config
+    require('mini.comment').setup {}
+
+    -- See :help MiniSurround.config
     require('mini.surround').setup {}
 
+    -- See :help MiniNotify.config
+    require('mini.notify').setup {
+      lsp_progress = { enable = false },
+    }
+
+    -- See :help MiniNotify.make_notify()
+    vim.notify = require('mini.notify').make_notify {}
+
+    require('mini.bufremove').setup {}
+
     require('mini.git').setup {}
-
-    require('mini.icons').setup()
-
-    require('mini.files').setup()
 
     require('mini.diff').setup {
       view = {
@@ -38,106 +51,32 @@ return {
       },
     }
 
-    local clue = require 'mini.clue'
-    clue.setup {
-      window = {
-        delay = 300,
-        config = { width = 'auto', border = 'single' },
-      },
-      triggers = {
-        -- Leader triggers
-        { mode = 'n', keys = '<Leader>' },
-        { mode = 'x', keys = '<Leader>' },
+    local mini_statusline = require 'mini.statusline'
 
-        -- Built-in completion
-        { mode = 'i', keys = '<C-x>' },
+    local function statusline()
+      local mode, mode_hl = mini_statusline.section_mode { trunc_width = 120 }
+      local diagnostics = mini_statusline.section_diagnostics { trunc_width = 75 }
+      local git = mini_statusline.section_git { trunc_width = 40 }
+      local lsp = mini_statusline.section_lsp { icon = 'λ', trunc_width = 75 }
+      local filename = mini_statusline.section_filename { trunc_width = 140 }
+      local percent = '%2p%%'
+      local location = '%3l:%-2c'
 
-        -- `g` key
-        { mode = 'n', keys = 'g' },
-        { mode = 'x', keys = 'g' },
+      return mini_statusline.combine_groups {
+        { hl = mode_hl, strings = { mode } },
+        { hl = 'MiniStatuslineDevinfo', strings = { git, diagnostics, lsp } },
+        '%<', -- Mark general truncate point
+        { hl = 'MiniStatuslineFilename', strings = { filename } },
+        '%=', -- End left alignment
+        { hl = 'MiniStatuslineFilename', strings = { '%{&filetype}' } },
+        { hl = 'MiniStatuslineFileinfo', strings = { percent } },
+        { hl = mode_hl, strings = { location } },
+      }
+    end
 
-        -- `[]` keys
-        { mode = 'n', keys = '[' },
-        { mode = 'n', keys = ']' },
-
-        -- `\` key
-        { mode = 'n', keys = [[\]] },
-
-        -- Marks
-        { mode = 'n', keys = "'" },
-        { mode = 'n', keys = '`' },
-        { mode = 'x', keys = "'" },
-        { mode = 'x', keys = '`' },
-
-        -- Registers
-        { mode = 'n', keys = '"' },
-        { mode = 'x', keys = '"' },
-        { mode = 'i', keys = '<C-r>' },
-        { mode = 'c', keys = '<C-r>' },
-
-        -- Window commands
-        { mode = 'n', keys = '<C-w>' },
-
-        -- `z` key
-        { mode = 'n', keys = 'z' },
-        { mode = 'x', keys = 'z' },
-      },
-
-      clues = {
-        { mode = 'n', keys = 'gz', desc = 'Surround' },
-
-        -- Enhance this by adding descriptions for <Leader> mapping groups
-        { mode = 'n', keys = '<leader>b', desc = 'Buffers' },
-        { mode = 'n', keys = '<leader>c', desc = 'Code' },
-        { mode = 'n', keys = '<leader>f', desc = 'Files' },
-        { mode = 'n', keys = '<leader>g', desc = 'Git/diff' },
-        { mode = 'n', keys = '<leader>gf', desc = 'Find files' },
-        { mode = 'n', keys = '<leader>m', desc = 'Map' },
-        { mode = 'n', keys = '<leader>M', desc = 'Mini' },
-        { mode = 'n', keys = '<leader>n', desc = 'Zk notes' },
-        { mode = 'n', keys = '<leader>s', desc = 'Search' },
-        { mode = 'n', keys = '<leader>x', desc = 'Quickfix' },
-        { mode = 'n', keys = '<leader>q', desc = 'Quit/session' },
-
-        -- Bracketed.
-        { mode = 'n', keys = ']b', postkeys = ']' },
-        { mode = 'n', keys = '[b', postkeys = '[' },
-        { mode = 'n', keys = ']c', postkeys = ']' },
-        { mode = 'n', keys = '[c', postkeys = '[' },
-        { mode = 'n', keys = ']d', postkeys = ']' },
-        { mode = 'n', keys = '[d', postkeys = '[' },
-        -- { mode = "n", keys = "]f", postkeys = "]" },
-        -- { mode = "n", keys = "[f", postkeys = "[" },
-        { mode = 'n', keys = ']h', postkeys = ']' },
-        { mode = 'n', keys = '[h', postkeys = '[' },
-        -- { mode = "n", keys = "]i", postkeys = "]" },
-        -- { mode = "n", keys = "[i", postkeys = "[" },
-        -- { mode = "n", keys = "]j", postkeys = "]" },
-        -- { mode = "n", keys = "[j", postkeys = "[" },
-        -- { mode = "n", keys = "]l", postkeys = "]" },
-        -- { mode = "n", keys = "[l", postkeys = "[" },
-        -- { mode = "n", keys = "]o", postkeys = "]" },
-        -- { mode = "n", keys = "[o", postkeys = "[" },
-        { mode = 'n', keys = ']q', postkeys = ']' },
-        { mode = 'n', keys = '[q', postkeys = '[' },
-        { mode = 'n', keys = ']t', postkeys = ']' },
-        { mode = 'n', keys = '[t', postkeys = '[' },
-        { mode = 'n', keys = ']u', postkeys = ']' },
-        { mode = 'n', keys = '[u', postkeys = '[' },
-        { mode = 'n', keys = ']w', postkeys = ']' },
-        { mode = 'n', keys = '[w', postkeys = '[' },
-        -- { mode = "n", keys = "]x", postkeys = "]" },
-        -- { mode = "n", keys = "[x", postkeys = "[" },
-        { mode = 'n', keys = ']y', postkeys = ']' },
-        { mode = 'n', keys = '[y', postkeys = '[' },
-
-        clue.gen_clues.builtin_completion(),
-        clue.gen_clues.g(),
-        clue.gen_clues.marks(),
-        clue.gen_clues.registers(),
-        clue.gen_clues.windows { submode_resize = true },
-        clue.gen_clues.z(),
-      },
+    -- See :help MiniStatusline.config
+    mini_statusline.setup {
+      content = { active = statusline },
     }
   end,
 }
