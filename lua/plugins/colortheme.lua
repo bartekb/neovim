@@ -1,21 +1,28 @@
--- catppuccin theme
-
 return {
-  'catppuccin/nvim',
-  name = 'catppuccin',
-  priority = 1000,
-  lazy = false,
+  'rose-pine/neovim',
+  name = 'rose-pine',
   config = function()
-    require('catppuccin').setup {
-      flavour = 'mocha', -- latte, frappe, macchiato, mocha
-      no_italic = true, -- Force no italic
-      no_bold = false, -- Force no bold
-      no_underline = false, -- Force no underline
-    }
-
-    vim.cmd 'colorscheme catppuccin-mocha'
+    vim.cmd 'colorscheme rose-pine'
   end,
 }
+
+-- catppuccin theme
+-- return {
+--   'catppuccin/nvim',
+--   name = 'catppuccin',
+--   priority = 1000,
+--   lazy = false,
+--   config = function()
+--     require('catppuccin').setup {
+--       flavour = 'mocha', -- latte, frappe, macchiato, mocha
+--       no_italic = true, -- Force no italic
+--       no_bold = false, -- Force no bold
+--       no_underline = false, -- Force no underline
+--     }
+--
+--     vim.cmd 'colorscheme catppuccin-mocha'
+--   end,
+-- }
 
 -- return {
 --   'craftzdog/solarized-osaka.nvim',

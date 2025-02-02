@@ -77,3 +77,5 @@ end, { desc = 'Open Diffview' })
 vim.keymap.set('n', '<leader>gD', function()
   require('diffview').close()
 end, { desc = 'Close Diffview' })
+
+vim.keymap.set("n", "<leader>o", "<cmd>lua require('oil').open_float('.')<CR>", { desc = "Open Oil in a floating popup" })

@@ -15,18 +15,18 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup {
   require 'plugins.colortheme',
   require 'plugins.treesitter',
+  require 'plugins.oil',
   -- require 'plugins.lualine',
   require 'plugins.fzf',
-  -- require 'plugins.lint',
+  require 'plugins.lint',
   require 'plugins.lsp',
   -- require 'plugins.misc',
   require 'plugins.mini',
   require 'plugins.conform',
-  -- require 'plugins.copilot',
   require 'plugins.diffview',
-  -- require 'plugins.supermaven',
   require 'plugins.blink',
   require 'plugins.git',
+  require 'plugins.kulala',
 }
 
 require 'core.keymaps'

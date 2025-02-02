@@ -31,6 +31,7 @@ return {
     local servers = {
       gopls = {},
       rust_analyzer = {},
+      ruby_lsp = {},
       ts_ls = {},
       html = { filetypes = { 'html', 'twig', 'hbs' } },
       eslint = {},
