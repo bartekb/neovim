@@ -3,6 +3,11 @@ return {
   config = function()
     require('diffview').setup {
       diff_binaries = false,
+      view = {
+        merge_tool = {
+          layout = 'diff3_mixed',
+        },
+      },
     }
-  end
+  end,
 }
