@@ -1,28 +1,52 @@
-return {
-  'rose-pine/neovim',
-  name = 'rose-pine',
-  config = function()
-    vim.cmd 'colorscheme rose-pine'
-  end,
-}
-
--- catppuccin theme
 -- return {
---   'catppuccin/nvim',
---   name = 'catppuccin',
+--   'navarasu/onedark.nvim',
+--   name = 'onedark',
 --   priority = 1000,
 --   lazy = false,
 --   config = function()
---     require('catppuccin').setup {
---       flavour = 'mocha', -- latte, frappe, macchiato, mocha
---       no_italic = true, -- Force no italic
---       no_bold = false, -- Force no bold
---       no_underline = false, -- Force no underline
+--     require('onedark').setup {
+--       style = 'darker',
 --     }
 --
---     vim.cmd 'colorscheme catppuccin-mocha'
+--     vim.cmd 'colorscheme onedark'
 --   end,
 -- }
+
+-- return {
+--   'bluz71/vim-moonfly-colors',
+--   name = 'moonfly',
+--   lazy = false,
+--   priority = 1000,
+--   config = function()
+--     vim.cmd 'colorscheme moonfly'
+--   end,
+-- }
+
+-- return {
+--   'rose-pine/neovim',
+--   name = 'rose-pine',
+--   config = function()
+--     vim.cmd 'colorscheme rose-pine'
+--   end,
+-- }
+
+-- catppuccin theme
+return {
+  'catppuccin/nvim',
+  name = 'catppuccin',
+  priority = 1000,
+  lazy = false,
+  config = function()
+    require('catppuccin').setup {
+      flavour = 'mocha', -- latte, frappe, macchiato, mocha
+      no_italic = true, -- Force no italic
+      no_bold = false, -- Force no bold
+      no_underline = false, -- Force no underline
+    }
+
+    vim.cmd 'colorscheme catppuccin-mocha'
+  end,
+}
 
 -- return {
 --   'craftzdog/solarized-osaka.nvim',

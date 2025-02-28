@@ -1,4 +1,4 @@
-vim.g.mapleader = vim.keycode('<Space>')
+vim.g.mapleader = vim.keycode '<Space>'
 
 vim.wo.number = true -- Make line numbers default (default: false)
 vim.o.clipboard = 'unnamedplus' -- Sync clipboard between OS and Neovim. (default: '')
@@ -36,15 +36,16 @@ vim.o.timeoutlen = 300 -- Time to wait for a mapped sequence to complete (in mil
 vim.o.backup = false -- Creates a backup file (default: false)
 vim.o.writebackup = false -- If a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited (default: true)
 vim.o.undofile = true -- Save undo history (default: false)
-vim.o.completeopt = 'menuone,noselect' -- Set completeopt to have a better completion experience (default: 'menu,preview')
+-- vim.o.completeopt = 'menuone,noselect' -- Set completeopt to have a better completion experience (default: 'menu,preview')
 vim.nostartofline = false -- Don't go to the start of the line when moving to another file (default: false)
 vim.opt.shortmess:append 'c' -- Don't give |ins-completion-menu| messages (default: does not include 'c')
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣', extends = '…', precedes = '…', eol = '↲' }
 vim.opt.iskeyword:append '-' -- Hyphenated words recognized by searches (default: does not include '-')
 vim.opt.formatoptions:remove { 'c', 'r', 'o' } -- Don't insert the current comment leader automatically for auto-wrapping comments using 'textwidth', hitting <Enter> in insert mode, or hitting 'o' or 'O' in normal mode. (default: 'croql')
 vim.opt.runtimepath:remove '/usr/share/vim/vimfiles' -- Separate Vim plugins from Neovim in case Vim still in use (default: includes this path if Vim is installed)
-vim.o.list = true -- Show some invisible characters (tabs...)
+-- vim.o.list = true -- Show some invisible characters (tabs...)
 vim.o.showbreak = '↪ ' -- Make it clear when a line is broken (default: '+++')
-vim.o.listchars = table.concat({ "extends:…", "nbsp:␣", "precedes:…", "tab:> " }, ",")
+vim.o.listchars = table.concat({ 'extends:…', 'nbsp:␣', 'precedes:…', 'tab:> ' }, ',')
+vim.o.diffopt = 'internal,filler,closeoff,indent-heuristic,linematch:60,algorithm:histogram'
 
-vim.lsp.set_log_level("off")
+vim.lsp.set_log_level 'off'

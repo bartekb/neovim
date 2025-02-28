@@ -51,32 +51,32 @@ return {
       },
     }
 
-    local mini_statusline = require 'mini.statusline'
-
-    local function statusline()
-      local mode, mode_hl = mini_statusline.section_mode { trunc_width = 120 }
-      local diagnostics = mini_statusline.section_diagnostics { trunc_width = 75 }
-      local git = mini_statusline.section_git { trunc_width = 40 }
-      local lsp = mini_statusline.section_lsp { icon = 'λ', trunc_width = 75 }
-      local filename = mini_statusline.section_filename { trunc_width = 140 }
-      local percent = '%2p%%'
-      local location = '%3l:%-2c'
-
-      return mini_statusline.combine_groups {
-        { hl = mode_hl, strings = { mode } },
-        { hl = 'MiniStatuslineDevinfo', strings = { git, diagnostics, lsp } },
-        '%<', -- Mark general truncate point
-        { hl = 'MiniStatuslineFilename', strings = { filename } },
-        '%=', -- End left alignment
-        { hl = 'MiniStatuslineFilename', strings = { '%{&filetype}' } },
-        { hl = 'MiniStatuslineFileinfo', strings = { percent } },
-        { hl = mode_hl, strings = { location } },
-      }
-    end
-
-    -- See :help MiniStatusline.config
-    mini_statusline.setup {
-      content = { active = statusline },
-    }
+    -- local mini_statusline = require 'mini.statusline'
+    --
+    -- local function statusline()
+    --   local mode, mode_hl = mini_statusline.section_mode { trunc_width = 120 }
+    --   local diagnostics = mini_statusline.section_diagnostics { trunc_width = 75 }
+    --   local git = mini_statusline.section_git { trunc_width = 40 }
+    --   local lsp = mini_statusline.section_lsp { icon = 'λ', trunc_width = 75 }
+    --   local filename = mini_statusline.section_filename { trunc_width = 140 }
+    --   local percent = '%2p%%'
+    --   local location = '%3l:%-2c'
+    --
+    --   return mini_statusline.combine_groups {
+    --     { hl = mode_hl, strings = { mode } },
+    --     { hl = 'MiniStatuslineDevinfo', strings = { git, diagnostics, lsp } },
+    --     '%<', -- Mark general truncate point
+    --     { hl = 'MiniStatuslineFilename', strings = { filename } },
+    --     '%=', -- End left alignment
+    --     { hl = 'MiniStatuslineFilename', strings = { '%{&filetype}' } },
+    --     { hl = 'MiniStatuslineFileinfo', strings = { percent } },
+    --     { hl = mode_hl, strings = { location } },
+    --   }
+    -- end
+    --
+    -- -- See :help MiniStatusline.config
+    -- mini_statusline.setup {
+    --   content = { active = statusline },
+    -- }
   end,
 }

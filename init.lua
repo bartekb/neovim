@@ -17,7 +17,7 @@ require('lazy').setup {
   require 'plugins.treesitter',
   require 'plugins.oil',
   require 'plugins.whichkey',
-  -- require 'plugins.lualine',
+  require 'plugins.lualine',
   require 'plugins.fzf',
   require 'plugins.lint',
   require 'plugins.lsp',
@@ -28,6 +28,9 @@ require('lazy').setup {
   require 'plugins.blink',
   require 'plugins.git',
   require 'plugins.kulala',
+  require 'plugins.flash',
+  require 'plugins.csvview',
+  require 'plugins.crates',
 }
 
 require 'core.keymaps'

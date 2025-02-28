@@ -1,36 +1,18 @@
 return {
   'neovim/nvim-lspconfig',
-  dependencies = { 'saghen/blink.cmp' },
-  config = function()
-    -- vim.diagnostic.config {
-    --   virtual_text = false,
-    --   signs = true,
-    --   float = { border = 'single' },
-    -- }
+  dependencies = {
+    'saghen/blink.cmp',
+    'j-hui/fidget.nvim',
+    'folke/lazydev.nvim',
+    'cordx56/rustowl',
+    'ibhagwan/fzf-lua', -- Ensure fzf-lua is installed
+  },
 
-    -- vim.api.nvim_create_autocmd('LspAttach', {
-    --   group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
-    --   callback = function(event)
-    --     local map = function(keys, func, desc, mode)
-    --       mode = mode or 'n'
-    --       vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
-    --     end
-
-    --     -- map('gr', require('fzf-lua').lsp_references, '[G]oto [R]eferences')
-    --     -- map('gI', require('fzf-lua').lsp_implementations, '[G]oto [I]mplementation')
-    --     -- map('<leader>D', require('fzf-lua').lsp_type_definitions, 'Type [D]efinition')
-    --     -- map('<leader>ds', require('fzf-lua').lsp_document_symbols, '[D]ocument [S]ymbols')
-    --     -- map('<leader>ws', require('fzf-lua').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-    --     map('gd', require('fzf-lua').lsp_definitions, '[G]oto [D]efinition')
-    --     map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-    --     map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
-    --     map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-    --   end,
-    -- })
-
-    local servers = {
+  opts = {
+    servers = {
       gopls = {},
       rust_analyzer = {},
+      rustowl = {},
       ruby_lsp = {},
       ts_ls = {},
       html = { filetypes = { 'html', 'twig', 'hbs' } },
@@ -38,30 +20,62 @@ return {
       lua_ls = {
         settings = {
           Lua = {
-            diagnostics = {
-              globals = { 'vim' },
-            },
+            diagnostics = { globals = { 'vim' } },
+            completion = { callSnippet = 'Replace' },
+            workspace = { checkThirdParty = false },
           },
         },
       },
-    }
+    },
+    diagnostics = {
+      virtual_text = true,
+      signs = true,
+      float = { border = 'single' },
+    },
+  },
 
-    for server, config in pairs(servers) do
-      local opts = {
-        -- on_attach = require('fidget').on_attach,
-        -- capabilities = require('fidget').capabilities,
-        capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities),
-      }
+  config = function(_, opts)
+    local lspconfig = require 'lspconfig'
+    local blink_cmp = require 'blink.cmp'
+    local fzf = require 'fzf-lua'
 
-      if config.settings then
-        opts.settings = config.settings
-      end
+    -- Configure diagnostics globally
+    vim.diagnostic.config(opts.diagnostics)
 
-      if config.filetypes then
-        opts.filetypes = config.filetypes
-      end
+    -- Auto-commands for LSP attachment
+    vim.api.nvim_create_autocmd('LspAttach', {
+      group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
+      callback = function(event)
+        local map = function(keys, func, desc, mode)
+          mode = mode or 'n'
+          if func then
+            vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+          else
+            vim.notify('LSP keymap skipped: ' .. desc, vim.log.levels.WARN)
+          end
+        end
 
-      require('lspconfig')[server].setup(opts)
+        map('gd', fzf.lsp_definitions, '[G]oto [D]efinition')
+        map('gr', fzf.lsp_references, '[G]oto [R]eferences')
+        map('gI', fzf.lsp_implementations, '[G]oto [I]mplementation')
+        map('<leader>ds', fzf.lsp_document_symbols, '[D]ocument [S]ymbols')
+        map('<leader>ws', fzf.lsp_live_workspace_symbols, '[W]orkspace [S]ymbols')
+        map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+        map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
+        map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+      end,
+    })
+
+    -- Setup LSP servers
+    for server, config in pairs(opts.servers) do
+      config.capabilities = blink_cmp.get_lsp_capabilities(config.capabilities or {})
+      lspconfig[server].setup(config)
     end
+
+    -- Load LazyDev for Lua development
+    require('lazydev').setup()
+
+    -- Load Fidget for LSP progress UI
+    require('fidget').setup {}
   end,
 }

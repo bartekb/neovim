@@ -54,9 +54,11 @@ vim.keymap.set('v', '<', '<gv', { desc = 'Indent left and stay' })
 vim.keymap.set('v', '>', '>gv', { desc = 'Indent right and stay' })
 
 -- Diagnostics
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
-vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open diagnostic float' })
+-- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
+-- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
+vim.keymap.set('n', '<leader>xl', function()
+  vim.diagnostic.open_float { scope = 'line' }
+end, { desc = 'Show [L]ine Diagnostics' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic list' })
 
 -- FZF
@@ -79,3 +81,6 @@ vim.keymap.set('n', '<leader>gD', function()
 end, { desc = 'Close Diffview' })
 
 vim.keymap.set('n', '<leader>o', "<cmd>lua require('oil').open_float('.')<CR>", { desc = 'Open Oil in a floating popup' })
+
+-- Git
+vim.keymap.set('n', '<leader>gg', '<cmd> lua MiniDiff.toggle_overlay()<CR>', { desc = 'Toggle git changes for current file' })
